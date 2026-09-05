@@ -17,7 +17,11 @@
     background: #002244;
 }
 
-/* Animations & Transitions */
+/* Animations & Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 button {
     transition: all 0.2s ease-in-out;
 }

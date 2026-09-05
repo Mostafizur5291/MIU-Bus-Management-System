@@ -1,4 +1,4 @@
-// Stoppage List Array
+// Complete Stoppages List (24 Stops)
 const stoppages = [
     "Rampura Bridge", "Merul Badda", "Badda", "Hosen Market", "Notun Bazar",
     "Coca-Cola", "Norda", "Bashundhara", "Jamuna Future Park", "Kuril Kazibari",
@@ -8,21 +8,21 @@ const stoppages = [
     "Uttara Center (Metro Station)", "Manarat International University Campus (Destination)"
 ];
 
-// Bus Data Configuration
+// Bus Configuration
 const busData = {
     male: {
         name: "Bus - 1 (Male)",
         driver: "Zia",
         phone: "01576984090",
         phoneHref: "tel:01576984090",
-        location: "Rampura Bridge (সকালের ট্রিপের জন্য প্রস্তুত)"
+        location: "1. Rampura Bridge (ছাড়ার অপেক্ষায়)"
     },
     female: {
         name: "Bus - 2 (Female)",
         driver: "Al-Amin",
         phone: "01862661127",
         phoneHref: "tel:01862661127",
-        location: "Rampura Bridge (সকালের ট্রিপের জন্য প্রস্তুত)"
+        location: "1. Rampura Bridge (ছাড়ার অপেক্ষায়)"
     }
 };
 
@@ -31,11 +31,25 @@ window.onload = function() {
     checkUserSession();
 };
 
+// Render Stoppage List with Click Functionality
 function renderStoppages() {
     const list = document.getElementById('stoppageList');
-    list.innerHTML = stoppages.map(s => `<li class="p-1.5 hover:bg-blue-100 rounded transition">${s}</li>`).join('');
+    list.innerHTML = stoppages.map((s, index) => `
+        <li onclick="selectStoppage('${s}', ${index + 1})" 
+            class="p-2.5 hover:bg-blue-100 rounded-lg transition cursor-pointer flex justify-between items-center border-b border-gray-200">
+            <span><strong class="text-blue-800 mr-2">${index + 1}.</strong> ${s}</span>
+            <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+        </li>
+    `).join('');
 }
 
+// Select Stoppage Action (Without Alert Popup)
+function selectStoppage(name, serial) {
+    document.getElementById('currentLocation').innerText = `${serial}. ${name}`;
+    document.getElementById('liveLocationCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Authentication Logic
 function handleAuth(e) {
     e.preventDefault();
     const id = document.getElementById('studentId').value;
@@ -67,6 +81,7 @@ function logout() {
     location.reload();
 }
 
+// Bus Selector (Male/Female)
 function selectBus(type) {
     const data = busData[type];
     document.getElementById('busName').innerText = data.name;

@@ -93,14 +93,14 @@
         </div>
 
         <!-- Live Bus Location Indicator -->
-        <div class="bg-white p-5 rounded-xl shadow-md border-t-4 border-yellow-500">
+        <div id="liveLocationCard" class="bg-white p-5 rounded-xl shadow-md border-t-4 border-yellow-500">
             <h3 class="text-lg font-bold text-gray-800 mb-2">
                 <i class="fa-solid fa-location-dot text-red-500 mr-2 animate-bounce"></i>লাইভ লোকেশন ট্র্যাকিং
             </h3>
             <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 flex items-center justify-between">
                 <div>
                     <span class="text-sm text-gray-500">বাসের বর্তমান অবস্থান:</span>
-                    <h4 class="text-xl font-extrabold text-gray-800" id="currentLocation">Rampura Bridge (ছাড়ার অপেক্ষায়)</h4>
+                    <h4 class="text-xl font-extrabold text-gray-800" id="currentLocation">1. Rampura Bridge (ছাড়ার অপেক্ষায়)</h4>
                 </div>
                 <span class="relative flex h-3 w-3">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -146,12 +146,13 @@
 
         <!-- Route Stoppages -->
         <div class="bg-white p-5 rounded-xl shadow-md">
-            <h3 class="text-lg font-bold text-gray-800 mb-3">
+            <h3 class="text-lg font-bold text-gray-800 mb-1">
                 <i class="fa-solid fa-map-location-dot text-blue-600 mr-2"></i>২৪টি স্টপেজের তালিকা (Rampura to Campus)
             </h3>
-            <div class="max-h-64 overflow-y-auto border rounded-lg p-3 bg-gray-50">
-                <ol id="stoppageList" class="list-decimal list-inside space-y-1 text-gray-700 font-medium">
-                    <!-- Stoppages rendered dynamically via JS -->
+            <p class="text-sm text-gray-500 mb-3">যেকোনো স্টপেজে ক্লিক করে অবস্থান সিলেক্ট করতে পারেন:</p>
+            <div class="max-h-64 overflow-y-auto border rounded-lg p-2 bg-gray-50">
+                <ol id="stoppageList" class="space-y-1 text-gray-700 font-medium">
+                    <!-- Stoppages rendered dynamically -->
                 </ol>
             </div>
         </div>
