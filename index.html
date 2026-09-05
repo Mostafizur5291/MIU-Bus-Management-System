@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIU Bus Management System - Rampura Route</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navigation Header -->
+    <nav class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-bus-simple text-yellow-400"></i> MIU Transport System
+            </h1>
+            <div id="userInfo" class="hidden flex items-center space-x-3">
+                <span id="userName" class="font-semibold text-sm md:text-base bg-blue-800 px-3 py-1 rounded-full"></span>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm transition">
+                    <i class="fa-solid fa-right-from-bracket"></i> লগআউট
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Authentication Section (Login/Register) -->
+    <div id="authSection" class="container mx-auto p-4 max-w-md my-10">
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-center text-blue-900" id="formTitle">স্টুডেন্ট লগইন / রেজিস্ট্রেশন</h2>
+            
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">স্টুডেন্ট ID</label>
+                    <input type="text" id="studentId" required placeholder="Ex: 0152310005101016" class="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div id="nameField" class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">পুরো নাম</label>
+                    <input type="text" id="fullName" placeholder="Ex: Mostafizur Rahman" class="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">জিেইল ইমেইল (Gmail)</label>
+                    <input type="email" id="email" required placeholder="example@gmail.com" class="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-900 text-white font-bold py-2.5 rounded-lg hover:bg-blue-800 transition" id="submitBtn">লগইন করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Transport Dashboard -->
+    <div id="dashboardSection" class="container mx-auto p-4 hidden space-y-6">
+        
+        <!-- Bus Selection Category -->
+        <div class="bg-white p-5 rounded-xl shadow-md text-center">
+            <h2 class="text-xl font-bold mb-3 text-gray-800">
+                <i class="fa-solid fa-venus-mars text-blue-600 mr-2"></i>বাস টাইপ সিলেক্ট করুন
+            </h2>
+            <div class="flex justify-center gap-4">
+                <button onclick="selectBus('male')" id="btnMale" class="px-6 py-2.5 rounded-lg font-bold bg-blue-600 text-white shadow hover:bg-blue-700 transition">
+                    <i class="fa-solid fa-mars mr-2"></i>Male Bus (Bus - 1)
+                </button>
+                <button onclick="selectBus('female')" id="btnFemale" class="px-6 py-2.5 rounded-lg font-bold bg-gray-200 text-gray-700 shadow hover:bg-pink-600 hover:text-white transition">
+                    <i class="fa-solid fa-venus mr-2"></i>Female Bus (Bus - 2)
+                </button>
+            </div>
+        </div>
+
+        <!-- Bus & Driver Details Grid -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-blue-600">
+                <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-3">
+                    <i class="fa-solid fa-bus text-blue-600 mr-2"></i>বাসের বিবরণ
+                </h3>
+                <p class="py-1"><strong>বাসের নম্বর:</strong> <span id="busName" class="text-blue-700 font-bold">Bus - 1 (Male)</span></p>
+                <p class="py-1"><strong>রুট:</strong> Rampura Bridge ➔ MIU Campus</p>
+                <p class="py-1"><strong>মোট সিট:</strong> ৪৫ জন (দাঁড়িয়ে যাওয়ার ক্ষমতা: ২০-২৫ জন)</p>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-green-600">
+                <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-3">
+                    <i class="fa-solid fa-user-gear text-green-600 mr-2"></i>ড্রাইভারের বিবরণ
+                </h3>
+                <p class="py-1"><strong>ড্রাইভারের নাম:</strong> <span id="driverName" class="font-semibold">Zia</span></p>
+                <p class="py-1"><strong>মোবাইল নম্বর:</strong> <a id="driverPhone" href="tel:01576984090" class="text-blue-600 font-bold hover:underline">01576984090</a></p>
+            </div>
+        </div>
+
+        <!-- Live Bus Location Indicator -->
+        <div class="bg-white p-5 rounded-xl shadow-md border-t-4 border-yellow-500">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">
+                <i class="fa-solid fa-location-dot text-red-500 mr-2 animate-bounce"></i>লাইভ লোকেশন ট্র্যাকিং
+            </h3>
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 flex items-center justify-between">
+                <div>
+                    <span class="text-sm text-gray-500">বাসের বর্তমান অবস্থান:</span>
+                    <h4 class="text-xl font-extrabold text-gray-800" id="currentLocation">Rampura Bridge (ছাড়ার অপেক্ষায়)</h4>
+                </div>
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Time Table Schedule -->
+        <div class="bg-white p-5 rounded-xl shadow-md">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">
+                <i class="fa-regular fa-clock text-blue-600 mr-2"></i>সময়সূচী (Schedule)
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-blue-900 text-white">
+                            <th class="p-3 border-b">ট্রিপ প্রকার</th>
+                            <th class="p-3 border-b">রুট ডিরেকশন</th>
+                            <th class="p-3 border-b">সময়</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-3 font-medium">সকালের ট্রিপ</td>
+                            <td class="p-3">Rampura Bridge ➔ Campus</td>
+                            <td class="p-3 text-blue-700 font-bold">07:10 AM</td>
+                        </tr>
+                        <tr class="border-b bg-gray-50">
+                            <td class="p-3 font-medium">১ম ফেরত ট্রিপ</td>
+                            <td class="p-3">MIU Campus ➔ Rampura Bridge</td>
+                            <td class="p-3 text-green-700 font-bold">01:45 PM</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 font-medium">২য় ফেরত ট্রিপ</td>
+                            <td class="p-3">MIU Campus ➔ Rampura Bridge</td>
+                            <td class="p-3 text-purple-700 font-bold">05:05 PM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Route Stoppages -->
+        <div class="bg-white p-5 rounded-xl shadow-md">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">
+                <i class="fa-solid fa-map-location-dot text-blue-600 mr-2"></i>২৪টি স্টপেজের তালিকা (Rampura to Campus)
+            </h3>
+            <div class="max-h-64 overflow-y-auto border rounded-lg p-3 bg-gray-50">
+                <ol id="stoppageList" class="list-decimal list-inside space-y-1 text-gray-700 font-medium">
+                    <!-- Stoppages rendered dynamically via JS -->
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

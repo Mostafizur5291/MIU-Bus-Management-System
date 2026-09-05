@@ -1,0 +1,23 @@
+/* Custom Scrollbar for Stoppage List */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #003366;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #002244;
+}
+
+/* Animations & Transitions */
+button {
+    transition: all 0.2s ease-in-out;
+}
